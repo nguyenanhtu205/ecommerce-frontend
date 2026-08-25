@@ -1,0 +1,9 @@
+﻿export { default as Address } from './Address';
+export { default as ChangePassword } from './ChangePassword';
+export { default as Payment } from './Payment';
+export { default as Profile } from './Profile';
+export { default as Promotion } from './Promotion';
+export { default as Purchase } from './Purchase';
+export { default as NotificationSystem } from './NotificationSystem';
+export { default as NotificationOrder } from './NotificationOrder';
+export { default as WriteReview } from './WriteReview';
