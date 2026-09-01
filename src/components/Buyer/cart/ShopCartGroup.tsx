@@ -2,6 +2,7 @@
 import CartItemRow from './CartItemRow';
 import { IoIosChatbubbles } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { useChatWindowStore } from '@/stores';
 
 type CartItemData = GetShopGroupedCartResponse[number]['items'][number];
 
@@ -28,6 +29,7 @@ export default function ShopCartGroup({
   onQuantityChange,
   onRemove,
 }: ShopCartGroupProps) {
+  const startConversationWithShop = useChatWindowStore((state) => state.startConversationWithShop);
   const allShopSelected = items.every((item) => item.isSelected);
 
   return (
@@ -43,7 +45,9 @@ export default function ShopCartGroup({
         <Link to={`/shop/${shopId}`} className='cursor-pointer'>
           <span className='text-sm text-black'>{shopName}</span>
         </Link>
-        <IoIosChatbubbles className='cursor-pointer text-[#EE4D2D]' title='Nhắn với cửa hàng' />
+        <IoIosChatbubbles
+          onClick={() => startConversationWithShop(shopId)}
+          className='cursor-pointer text-[#EE4D2D]' title='Nhắn với cửa hàng' />
       </div>
       <div className='mt-px space-y-px'>
         {items.map((item) => (

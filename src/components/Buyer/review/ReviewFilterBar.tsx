@@ -9,6 +9,42 @@ type ReviewFilterBarProps = {
   onFilterChange: (filter: ReviewFilterKey) => void;
 };
 
+function RatingStars({ rating, size = 18 }: { rating: number; size?: number }) {
+  return (
+    <div className='flex gap-0.5'>
+      {Array.from({ length: 5 }).map((_, i) => {
+        const fillPercent = Math.min(Math.max((rating - i) * 100, 0), 100);
+
+        return (
+          <div key={i} className='relative shrink-0' style={{ width: size, height: size }}>
+            <svg
+              width={size}
+              height={size}
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              className='absolute inset-0 text-slate-300'
+            >
+              <path
+                strokeWidth={1.5}
+                d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z'
+              />
+            </svg>
+            <div
+              className='absolute inset-0 overflow-hidden text-[#EE4D2D]'
+              style={{ width: `${fillPercent}%` }}
+            >
+              <svg width={size} height={size} viewBox='0 0 24 24' fill='currentColor'>
+                <path d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z' />
+              </svg>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function ReviewFilterBar({
   aggregate,
   activeFilter,
@@ -41,12 +77,8 @@ export default function ReviewFilterBar({
           <p className='text-3xl font-medium text-[#EE4D2D]'>
             {aggregate.ratingAverage.toFixed(1)} <span className='text-lg font-normal'>trên 5</span>
           </p>
-          <div className='mt-1 flex justify-center gap-0.5 text-[#EE4D2D]'>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg key={i} width='18' height='18' viewBox='0 0 24 24' fill='currentColor'>
-                <path d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z' />
-              </svg>
-            ))}
+          <div className='mt-1 flex justify-center gap-0.5'>
+            <RatingStars rating={aggregate.ratingAverage} />
           </div>
           <p className='mt-1 text-xs text-slate-400'>{aggregate.ratingCount} đánh giá</p>
         </div>
