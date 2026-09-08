@@ -1,5 +1,5 @@
 ﻿import { create } from 'zustand';
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useChatbotWindowStore } from '@/stores';
 
 type ChatWindowState = {
   isOpen: boolean;
@@ -18,9 +18,19 @@ export const useChatWindowStore = create<ChatWindowState>((set) => ({
   selectedConversationId: null,
   pendingShopId: null,
 
-  openChatWindow: () => set({ isOpen: true }),
+  openChatWindow: () => {
+    useChatbotWindowStore.getState().closeChatbotWindow();
+    set({ isOpen: true });
+  },
+
   closeChatWindow: () => set({ isOpen: false }),
-  toggleChatWindow: () => set((state) => ({ isOpen: !state.isOpen })),
+
+  toggleChatWindow: () =>
+    set((state) => {
+      const nextIsOpen = !state.isOpen;
+      if (nextIsOpen) useChatbotWindowStore.getState().closeChatbotWindow();
+      return { isOpen: nextIsOpen };
+    }),
 
   selectConversation: (conversationId) =>
     set({ selectedConversationId: conversationId, pendingShopId: null }),
@@ -29,6 +39,8 @@ export const useChatWindowStore = create<ChatWindowState>((set) => ({
     const roles = useAuthStore.getState().user?.role;
     if (roles == undefined) return;
     if (roles[0] !== 'buyer') return;
+
+    useChatbotWindowStore.getState().closeChatbotWindow();
     set({ isOpen: true, pendingShopId: shopId, selectedConversationId: null });
   },
 }));

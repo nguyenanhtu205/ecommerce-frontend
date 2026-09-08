@@ -3,7 +3,7 @@ import { IoNotificationsOutline } from 'react-icons/io5';
 import { MdOutlineContactSupport } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogout, useGetProfile, useGetAssetById } from '@/hooks';
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useChatbotWindowStore } from '@/stores';
 
 function UserAvatar({ avatarId, alt }: { avatarId: string | null | undefined; alt: string }) {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -54,6 +54,7 @@ export default function TopBar() {
   const navigate = useNavigate();
 
   const user = useAuthStore((state) => state.user);
+  const openChatbotWindow = useChatbotWindowStore((state) => state.openChatbotWindow);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { logout, isPending: isLoggingOut } = useLogout();
   const { data: profile } = useGetProfile(!!user);
@@ -113,10 +114,14 @@ export default function TopBar() {
               <IoNotificationsOutline className='h-4 w-4' />
               Thông Báo
             </Link>
-            <Link to='#' className='flex items-center gap-1.5 py-1.5 hover:opacity-80'>
+            <button
+              type='button'
+              onClick={openChatbotWindow}
+              className='flex cursor-pointer items-center gap-1.5 py-1.5 hover:opacity-80'
+            >
               <MdOutlineContactSupport className='h-4 w-4' />
               Hỗ Trợ
-            </Link>
+            </button>
 
             {user ? (
               <>

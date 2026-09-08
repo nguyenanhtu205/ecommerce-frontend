@@ -9,22 +9,21 @@ const useLogout = () => {
   const closeChatbotWindow = useChatbotWindowStore((state) => state.closeChatbotWindow);
   const navigate = useNavigate();
 
+  const { mutate: logout, isPending } = useMutation({
+    mutationFn: async (): Promise<void> => {
+      await axiosPrivate.post('/auth/logout');
+    },
+  });
+
   const handleLogout = () => {
     closeChatWindow();
     closeChatbotWindow();
     clearAuth();
     navigate('/');
+    logout();
   };
 
-  const { mutate: logout, isPending } = useMutation({
-    mutationFn: async (): Promise<void> => {
-      await axiosPrivate.post('/auth/logout');
-    },
-    onSuccess: handleLogout,
-    onError: handleLogout,
-  });
-
-  return { logout, isPending };
+  return { logout: handleLogout, isPending };
 };
 
 export default useLogout;

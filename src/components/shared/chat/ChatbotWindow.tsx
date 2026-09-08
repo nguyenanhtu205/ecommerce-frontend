@@ -3,13 +3,12 @@ import { BsRobot } from 'react-icons/bs';
 import { RiSendPlaneLine } from 'react-icons/ri';
 import { X } from 'lucide-react';
 import { useChatbotWindowStore } from '@/stores/chatbotWindowStore';
-import useGetChatHistory from '@/hooks/chatbot/useGetChatHistory';
-import useAskQuestion from '@/hooks/chatbot/useAskQuestion';
+import { useGetChatHistory, useAskQuestion } from '@/hooks';
 
 const FAQ_QUESTIONS = [
-  'Làm sao để tạo đơn hàng?',
-  'Làm sao để đổi/trả sản phẩm?',
-  'Làm sao để liên hệ với shop?',
+  'Làm sao để tìm kiếm sản phẩm?',
+  'Làm sao để thanh toán đơn hàng?',
+  'Làm sao để đăng và quản lý sản phẩm?',
 ];
 
 export default function ChatbotWindow() {
