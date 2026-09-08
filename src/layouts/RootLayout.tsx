@@ -1,5 +1,5 @@
 ﻿import { Outlet } from 'react-router-dom';
-import { ChatButton, ChatWindow, TopBar } from '@/components';
+import { ChatbotButton, ChatbotWindow, ChatButton, ChatWindow, TopBar } from '@/components';
 
 export default function RootLayout() {
   return (
@@ -7,7 +7,9 @@ export default function RootLayout() {
       <TopBar />
       <Outlet />
       <ChatButton />
+      <ChatbotButton />
       <ChatWindow />
+      <ChatbotWindow />
     </>
   );
 }

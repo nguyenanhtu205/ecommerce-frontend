@@ -1,5 +1,6 @@
 ﻿import { IoIosChatboxes } from 'react-icons/io';
 import { useAuthStore, useChatWindowStore } from '@/stores';
+import { useChatbotWindowStore } from '@/stores/chatbotWindowStore';
 import { useGetConversations } from '@/hooks';
 
 export default function ChatButton() {
@@ -7,9 +8,11 @@ export default function ChatButton() {
   const isOpen = useChatWindowStore((state) => state.isOpen);
   const openChatWindow = useChatWindowStore((state) => state.openChatWindow);
 
+  const isChatbotWindowOpen = useChatbotWindowStore((state) => state.isOpen);
+
   const { data: conversations } = useGetConversations({ enabled: !!user });
 
-  if (!user || isOpen) return null;
+  if (!user || isOpen || isChatbotWindowOpen) return null;
 
   const totalUnread = (conversations ?? []).reduce(
     (sum, c) => sum + (user.role[0] === 'seller' ? c.sellerUnreadCount : c.buyerUnreadCount),

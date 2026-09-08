@@ -1,15 +1,17 @@
 ﻿import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore, useChatWindowStore } from '@/stores';
+import { useAuthStore, useChatbotWindowStore, useChatWindowStore } from '@/stores';
 import { axiosPrivate } from '@/utils';
 
 const useLogout = () => {
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const closeChatWindow = useChatWindowStore((state) => state.closeChatWindow);
+  const closeChatbotWindow = useChatbotWindowStore((state) => state.closeChatbotWindow);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     closeChatWindow();
+    closeChatbotWindow();
     clearAuth();
     navigate('/');
   };

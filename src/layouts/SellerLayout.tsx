@@ -1,5 +1,12 @@
 ﻿import { Outlet } from 'react-router-dom';
-import { SellerTopbar, SellerSidebar, ChatButton, ChatWindow } from '@/components';
+import {
+  SellerTopbar,
+  SellerSidebar,
+  ChatButton,
+  ChatWindow,
+  ChatbotButton,
+  ChatbotWindow,
+} from '@/components';
 import { useShopInformation } from '@/hooks';
 
 export default function SellerLayout() {
@@ -15,7 +22,9 @@ export default function SellerLayout() {
         </main>
       </div>
       <ChatButton />
+      <ChatbotButton />
       <ChatWindow />
+      <ChatbotWindow />
     </div>
   );
 }

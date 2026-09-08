@@ -1,6 +1,7 @@
 ﻿export * from './auth';
 export * from './cart';
 export * from './chat';
+export * from './chatbot';
 export * from './krakend';
 export * from './media';
 export * from './order';
