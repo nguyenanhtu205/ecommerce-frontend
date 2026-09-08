@@ -1,5 +1,7 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { BsRobot } from 'react-icons/bs';
+import { RiSendPlaneLine } from 'react-icons/ri';
+import { X } from 'lucide-react';
 import { useChatbotWindowStore } from '@/stores/chatbotWindowStore';
 import useGetChatHistory from '@/hooks/chatbot/useGetChatHistory';
 import useAskQuestion from '@/hooks/chatbot/useAskQuestion';
@@ -39,19 +41,19 @@ export default function ChatbotWindow() {
 
   return (
     <div className='fixed right-1 bottom-0.5 z-50 flex h-125 w-87.5 flex-col overflow-hidden rounded-lg bg-white shadow-xl'>
-      <div className='flex items-center justify-between border-b px-4 py-2.5'>
-        <div className='flex items-center gap-2'>
-          <span className='flex h-7 w-7 items-center justify-center rounded-full bg-[#EE4D2D]'>
+      <div className='flex items-center justify-between border-b border-gray-200 px-4 py-2.5'>
+        <div className='flex min-w-0 items-center gap-2'>
+          <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-500'>
             <BsRobot className='text-sm text-white' />
           </span>
-          <span className='text-sm font-medium'>Chatbot</span>
+          <span className='truncate text-sm font-medium'>Chatbot</span>
         </div>
         <button
           onClick={closeChatbotWindow}
           aria-label='Đóng'
-          className='text-gray-400 hover:text-gray-600'
+          className='cursor-pointer text-gray-400 hover:text-orange-500'
         >
-          ✕
+          <X size={18} />
         </button>
       </div>
 
@@ -67,23 +69,24 @@ export default function ChatbotWindow() {
         {isAsking && <TypingBubble />}
       </div>
 
-      <div className='flex items-center gap-2 border-t p-2'>
+      <div className='flex items-center gap-2 border-t border-gray-200 p-2'>
         <input
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleAsk(content);
           }}
-          placeholder='Nhập câu hỏi...'
+          placeholder='Nhập câu hỏi'
           disabled={isAsking}
-          className='flex-1 rounded border px-3 py-1.5 text-sm outline-none focus:border-[#EE4D2D] disabled:bg-gray-50'
+          className='flex-1 rounded border border-gray-200 px-3 py-1.5 text-sm outline-none focus:border-orange-500 disabled:bg-gray-50'
         />
         <button
+          title='Gửi'
           onClick={() => handleAsk(content)}
           disabled={!content.trim() || isAsking}
-          className='text-[#EE4D2D] disabled:text-gray-300'
+          className='cursor-pointer text-xl text-gray-400 hover:text-orange-500 disabled:cursor-not-allowed disabled:text-gray-300'
         >
-          ➤
+          <RiSendPlaneLine />
         </button>
       </div>
     </div>
@@ -95,7 +98,7 @@ function MessageBubble({ role, content }: { role: string; content: string }) {
   return (
     <div className={`mb-2 flex items-end gap-2 ${isUser ? 'justify-end' : 'justify-start'}`}>
       {!isUser && (
-        <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EE4D2D]'>
+        <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-500'>
           <BsRobot className='text-[11px] text-white' />
         </span>
       )}
@@ -113,7 +116,7 @@ function MessageBubble({ role, content }: { role: string; content: string }) {
 function TypingBubble() {
   return (
     <div className='mb-2 flex items-end gap-2'>
-      <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EE4D2D]'>
+      <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-500'>
         <BsRobot className='text-[11px] text-white' />
       </span>
       <div className='flex items-center gap-1 rounded-lg bg-gray-100 px-3 py-2.5'>
@@ -128,9 +131,6 @@ function TypingBubble() {
 function FaqQuestions({ onPick }: { onPick: (q: string) => void }) {
   return (
     <div className='flex h-full flex-col items-center justify-center gap-3 px-4 text-center'>
-      <span className='flex h-12 w-12 items-center justify-center rounded-full bg-[#EE4D2D]/10'>
-        <BsRobot className='text-2xl text-[#EE4D2D]' />
-      </span>
       <p className='text-sm text-gray-500'>
         Chào bạn! Mình có thể giúp gì về cách sử dụng hệ thống?
       </p>
@@ -139,7 +139,7 @@ function FaqQuestions({ onPick }: { onPick: (q: string) => void }) {
           <button
             key={q}
             onClick={() => onPick(q)}
-            className='rounded border px-3 py-1.5 text-left text-sm text-blue-600 hover:bg-blue-50'
+            className='rounded border border-gray-200 px-3 py-1.5 text-left text-sm text-[#EE4D2D] hover:cursor-pointer hover:bg-orange-50'
           >
             {q}
           </button>
